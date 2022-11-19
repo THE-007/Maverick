@@ -2,12 +2,6 @@ import csv
 import json
 import pandas as pd
 
-sortread = pd.read_csv("DefuzzifiedClubs_data.csv")
-sortread.sort_values(["Name"],axis=0,ascending=[True],inplace=True)
-sortread.to_csv("SortedDefuzzified.csv",index=False)
-
-
-
 with open('Metadata.csv') as csvfile:
     Data = []
     csvreader = csv.reader(csvfile , delimiter=',')
@@ -41,6 +35,6 @@ with open('Metadata.csv') as csvfile:
 
 
 print(Data[:1])
-with open('yourjson.json', 'w') as f:
+with open('Profilejson.json', 'w') as f:
     # indent does the prettify
     json.dump(Data, f, indent=4)
