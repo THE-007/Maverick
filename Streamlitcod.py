@@ -54,7 +54,7 @@ for i in range(int(Distinct_Clubs_Count)):
 ##########################################################################################################################################
 fests = pd.read_csv("defuzzy_csv/Participants_In_Fests.csv")
 fest_person_count = []
-for i in range(Distinct_Clubs_Count):
+for i in range(Distinct_Fests_Count):
     fests_iter = fests.loc[fests['Fest_Name'] == 'fest_'+str(i+1)]
     fests_iter = fests_iter["Name"].unique()
     fest_person_count.append((int(len(fests_iter))))
@@ -78,27 +78,31 @@ import numpy as np
 st.subheader("CLUBS")
 chart_data = pd.DataFrame(
     club_person_count,
-    columns=["Students"])
+    columns=["Students"],
+    index=["Club1","Club2","Club3"])
 print(chart_data)
 st.bar_chart(club_person_count)
 
 
 chart_data1 = pd.DataFrame(
     club_event_count,
-    columns=["Event1","Event2","Event3"])
+    columns=["Event1","Event2","Event3"],
+    index=["Club1","Club2","Club3"])
 print(chart_data1)
 st.bar_chart(data=chart_data1)
 
 st.subheader("Fests")
 chart_data2 = pd.DataFrame(
     fest_person_count,
-    columns=["Persons"])
+    columns=["Persons"],
+    index=["Fest1","Fest2"])
 print(chart_data2)
 st.bar_chart(data=chart_data2)
 
 chart_data3 = pd.DataFrame(
     fest_event_count,
-    columns=["Event_1","Event_2","Event_3","Event_4","Event_5","Event_6","Event_7","Event_8","Event_9","Event_10","Event_11","Event_12","Event_13","Event_14","Event_15"])
+    columns=["Event_1","Event_2","Event_3","Event_4","Event_5","Event_6","Event_7","Event_8","Event_9","Event_10","Event_11","Event_12","Event_13","Event_14","Event_15"],
+    index=["Fest1","Fest2"])
 print(chart_data3)
 st.bar_chart(data=chart_data3)
 
@@ -124,7 +128,6 @@ print(count_total_fests_inclubaswell)
 
 GRAPH_LIST = [[len(DF_CLUBS_LIST),len(Metadata)-len(DF_CLUBS_LIST)],[count_total_fests_inclubaswell,count_total_fests-count_total_fests_inclubaswell]]
 
-#GRAPH_LIST = [[258,242],[1347,3422]]
 print(GRAPH_LIST )
 
 st.subheader("Stats")
@@ -181,3 +184,11 @@ Peopleinclubnotfest = [x for x in DF_CLUBS_LIST if x not in DF_Fests_LIST]
 peopleinfestnotinclub = [x for x in DF_Fests_LIST if x not in DF_CLUBS_LIST ]
 print(len(Peopleinclubnotfest))
 print(len(peopleinfestnotinclub))
+
+st.subheader("Stats")
+chart_data6 = pd.DataFrame(
+    [len(People_participating_in_fests_and_clubs),len(Peopleinclubnotfest),len(peopleinfestnotinclub)],
+    columns=["Participating"],
+    index=["BOTH","CLUBS NOT FEST","FEST NOT CLUB"])
+print(chart_data6)
+st.bar_chart(data=chart_data6)
