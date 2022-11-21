@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import csv
 ##########################################################################################################################################
 Metadata = pd.read_csv("Metadata.csv")
 clubs = pd.read_csv("defuzzy_csv/Clubs_data.csv")
@@ -8,10 +9,16 @@ Organisers_in_fest = pd.read_csv("defuzzy_csv/Organisers_In_Fests.csv")
 Participants_in_fests = pd.read_csv("defuzzy_csv/Participants_In_Fests.csv")
 Organisers_in_clubs = pd.read_csv("Organiser_Final.csv")
 ##########################################################################################################################################
-Distinct_Clubs_Count = 3
-Distinct_Fests_Count = 2
-Distinct_Clubsevent_Count = [3,3,3]
-Distinct_FestEvent_Count = [13,15]
+LIST_to_store = []
+with open("COUNT_VAR.csv") as csvfile:
+    csvfile = csv.reader(csvfile)
+    for row in csvfile:
+        LIST_to_store.append(row)
+
+Distinct_Clubs_Count = LIST_to_store[0][0]
+Distinct_Fests_Count = LIST_to_store[1][0]
+Distinct_Clubsevent_Count = LIST_to_store[2]
+Distinct_FestEvent_Count = LIST_to_store[3]
 ##########################################################################################################################################
 st.title("Dashboard")
 ##########################################################################################################################################
@@ -38,7 +45,8 @@ if st.checkbox('Show Organisers in Clubs'):
 
 ##########################################################################################################################################
 club_person_count = []
-for i in range(Distinct_Clubs_Count):
+
+for i in range(int(Distinct_Clubs_Count)):
     clubs_iter = clubs.loc[clubs['Club_Name'] == 'club_'+str(i+1)]
     clubs_iter = clubs_iter["Name"].unique()
     club_person_count.append((int(len(clubs_iter))))
@@ -54,7 +62,7 @@ for i in range(int(Distinct_Clubs_Count)):
 ##########################################################################################################################################
 fests = pd.read_csv("defuzzy_csv/Participants_In_Fests.csv")
 fest_person_count = []
-for i in range(Distinct_Fests_Count):
+for i in range(int(Distinct_Fests_Count)):
     fests_iter = fests.loc[fests['Fest_Name'] == 'fest_'+str(i+1)]
     fests_iter = fests_iter["Name"].unique()
     fest_person_count.append((int(len(fests_iter))))
