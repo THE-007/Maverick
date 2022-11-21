@@ -9,18 +9,24 @@ Organisers_in_fest = pd.read_csv("defuzzy_csv/Organisers_In_Fests.csv")
 Participants_in_fests = pd.read_csv("defuzzy_csv/Participants_In_Fests.csv")
 Organisers_in_clubs = pd.read_csv("Organiser_Final.csv")
 ##########################################################################################################################################
+
+
+
+
+
+##########################################################################################################################################
 LIST_to_store = []
 with open("COUNT_VAR.csv") as csvfile:
     csvfile = csv.reader(csvfile)
     for row in csvfile:
         LIST_to_store.append(row)
-
 Distinct_Clubs_Count = LIST_to_store[0][0]
 Distinct_Fests_Count = LIST_to_store[1][0]
 Distinct_Clubsevent_Count = LIST_to_store[2]
 Distinct_FestEvent_Count = LIST_to_store[3]
 ##########################################################################################################################################
-st.title("Dashboard")
+
+
 ##########################################################################################################################################
 # Create a text element and let the reader know the data is loading.
 data_load_state = st.text('Loading data...')
@@ -42,6 +48,11 @@ if st.checkbox('Show Participants in Fests'):
 if st.checkbox('Show Organisers in Clubs'):
     st.subheader('Organisers in Clubs')
     st.write(Organisers_in_clubs)
+
+
+
+
+
 
 ##########################################################################################################################################
 club_person_count = []
@@ -81,6 +92,10 @@ for i in range(int(Distinct_Fests_Count)):
 #print(fest_person_count)
 #print(fest_event_count)
 
+
+
+
+
 import pandas as pd
 import numpy as np
 st.subheader("CLUBS")
@@ -119,6 +134,41 @@ chart_data3 = pd.DataFrame(
 st.bar_chart(data=chart_data3)
 
 
+
+st.subheader("Participations")
+
+Participations_Clubs = len(clubs)-len(Organisers_in_clubs)
+Participations_fests = len(Participants_in_fests)
+sumclubsevent = 0
+sumfestsevent = 0
+
+for i in range(len(Distinct_Clubsevent_Count)):
+    sumclubsevent = sumclubsevent+int(Distinct_Clubsevent_Count[i])
+
+
+for i in range(len(Distinct_FestEvent_Count)):
+    sumfestsevent = sumfestsevent+int(Distinct_FestEvent_Count[i])
+
+
+
+
+List_to_store_11 = [Participations_Clubs,Participations_fests]
+chart_data11 = pd.DataFrame(
+    List_to_store_11,
+    columns=["Participants"],
+    index=["Club","Fests"])
+#print(chart_data1)
+st.bar_chart(data=chart_data11)
+st.subheader("Participations per Event")
+List_to_store_111 = [int((Participations_Clubs)/(sumclubsevent)),int((Participations_fests)/(sumfestsevent))]
+chart_data111 = pd.DataFrame(
+    List_to_store_111,
+    columns=["Participants"],
+    index=["Participants per event in club","_Participant per event in Fests"])
+#print(chart_data1)
+st.bar_chart(data=chart_data111)
+
+
 #################################################################################################################################
 
 DF_CLUBS = pd.read_csv("defuzzy_csv/Clubs_data.csv")
@@ -142,7 +192,7 @@ GRAPH_LIST = [[len(DF_CLUBS_LIST),len(Metadata)-len(DF_CLUBS_LIST)],[count_total
 
 
 
-st.subheader("Ratio of Club Vs Fest Participants")
+st.subheader("Ratio of Club Participant Vs Fest Participations")
 chart_data4 = pd.DataFrame(
     GRAPH_LIST,
     columns=["Participating","Not Participating"],
@@ -181,6 +231,7 @@ GRAPH_LIST_fest = [[len(DF_FESTS_LIST),len(Metadata)-len(DF_FESTS_LIST)],[count_
 
 
 #print(GRAPH_LIST_fest )
+st.subheader("Ratio of Fest Participant Vs Club Participations")
 
 chart_data5 = pd.DataFrame(
     GRAPH_LIST_fest ,
@@ -213,3 +264,5 @@ chart_data6 = pd.DataFrame(
     index=["BOTH","CLUBS NOT FEST","FEST NOT CLUB"])
 #print(chart_data6)
 st.bar_chart(data=chart_data6)
+
+
