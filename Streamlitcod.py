@@ -56,11 +56,11 @@ if st.checkbox('Show Organisers in Clubs'):
 
 ##########################################################################################################################################
 club_person_count = []
-#"""
-#for i in range(int(Distinct_Clubs_Count)):
-#    clubs_iter = clubs.loc[clubs['Club_Name'] == 'club_'+str(i+1)]
-#    clubs_iter = clubs_iter["Name"].unique()
-#    club_person_count.append((int(len(clubs_iter))))"""
+
+for i in range(int(Distinct_Clubs_Count)):
+    clubs_iter = clubs.loc[clubs['Club_Name'] == 'club_'+str(i+1)]
+    clubs_iter = clubs_iter["Name"].unique()
+    club_person_count.append((int(len(clubs_iter))))
 ##########################################################################################################################################
 club_event_count = []
 for i in range(int(Distinct_Clubs_Count)):
@@ -101,12 +101,12 @@ import numpy as np
 st.subheader("CLUBS")
 st.write("No of Participations in club events")
 
-#"""chart_data = pd.DataFrame(
-#    club_person_count,
-#    columns=["Students"],
-#    index=["Club1","Club2","Club3"])
+chart_data = pd.DataFrame(
+    club_person_count,
+    columns=["Students"],
+    index=["Club1","Club2","Club3"])
 #print(chart_data)
-#st.bar_chart(club_person_count)"""
+st.bar_chart(chart_data)
 
 
 chart_data1 = pd.DataFrame(
@@ -259,9 +259,9 @@ peopleinfestnotinclub = [x for x in DF_Fests_LIST if x not in DF_CLUBS_LIST ]
 
 st.subheader("General Stats")
 chart_data6 = pd.DataFrame(
-    [len(People_participating_in_fests_and_clubs),len(Peopleinclubnotfest),len(peopleinfestnotinclub)],
+    [len(People_participating_in_fests_and_clubs),len(DF_CLUBS_LIST),len(DF_Fests_LIST)],
     columns=["Participating"],
-    index=["BOTH","CLUBS NOT FEST","FEST NOT CLUB"])
+    index=["BOTH","CLUBS","FEST"])
 #print(chart_data6)
 st.bar_chart(data=chart_data6)
 
