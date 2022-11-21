@@ -45,11 +45,11 @@ if st.checkbox('Show Organisers in Clubs'):
 
 ##########################################################################################################################################
 club_person_count = []
-
-for i in range(int(Distinct_Clubs_Count)):
-    clubs_iter = clubs.loc[clubs['Club_Name'] == 'club_'+str(i+1)]
-    clubs_iter = clubs_iter["Name"].unique()
-    club_person_count.append((int(len(clubs_iter))))
+#"""
+#for i in range(int(Distinct_Clubs_Count)):
+#    clubs_iter = clubs.loc[clubs['Club_Name'] == 'club_'+str(i+1)]
+#    clubs_iter = clubs_iter["Name"].unique()
+#    club_person_count.append((int(len(clubs_iter))))"""
 ##########################################################################################################################################
 club_event_count = []
 for i in range(int(Distinct_Clubs_Count)):
@@ -76,42 +76,46 @@ for i in range(int(Distinct_Fests_Count)):
         fest_event_iter.append((int(len(fests_iter))))
     fest_event_count.append(fest_event_iter)
 
-print(club_person_count)
-print(club_event_count)
-print(fest_person_count)
-print(fest_event_count)
+#print(club_person_count)
+#print(club_event_count)
+#print(fest_person_count)
+#print(fest_event_count)
 
 import pandas as pd
 import numpy as np
 st.subheader("CLUBS")
-chart_data = pd.DataFrame(
-    club_person_count,
-    columns=["Students"],
-    index=["Club1","Club2","Club3"])
-print(chart_data)
-st.bar_chart(club_person_count)
+st.write("No of Participations in club events")
+
+#"""chart_data = pd.DataFrame(
+#    club_person_count,
+#    columns=["Students"],
+#    index=["Club1","Club2","Club3"])
+#print(chart_data)
+#st.bar_chart(club_person_count)"""
 
 
 chart_data1 = pd.DataFrame(
     club_event_count,
     columns=["Event1","Event2","Event3"],
     index=["Club1","Club2","Club3"])
-print(chart_data1)
+#print(chart_data1)
 st.bar_chart(data=chart_data1)
 
 st.subheader("Fests")
+st.write("No of people Participating in Fests")
 chart_data2 = pd.DataFrame(
     fest_person_count,
     columns=["Persons"],
     index=["Fest1","Fest2"])
-print(chart_data2)
+#print(chart_data2)
 st.bar_chart(data=chart_data2)
 
+st.write("No of Participations in Fest Events")
 chart_data3 = pd.DataFrame(
     fest_event_count,
     columns=["Event_1","Event_2","Event_3","Event_4","Event_5","Event_6","Event_7","Event_8","Event_9","Event_10","Event_11","Event_12","Event_13","Event_14","Event_15"],
     index=["Fest1","Fest2"])
-print(chart_data3)
+#print(chart_data3)
 st.bar_chart(data=chart_data3)
 
 
@@ -119,11 +123,11 @@ st.bar_chart(data=chart_data3)
 
 DF_CLUBS = pd.read_csv("defuzzy_csv/Clubs_data.csv")
 DF_CLUBS_LIST = DF_CLUBS["Name"].unique()
-print(len(DF_CLUBS_LIST))
+#print(len(DF_CLUBS_LIST))
 DF_Fests = pd.read_csv("defuzzy_csv/Participants_In_Fests.csv")
 DF_Fests_LIST = DF_Fests["Name"].unique()
 dups = DF_Fests.pivot_table(index = ['Name'], aggfunc ='size')
-print(len(dups))
+
 count_total_fests = 0
 for i in range(len(dups)):
     count_total_fests=count_total_fests+dups[i]
@@ -132,33 +136,36 @@ count_total_fests_inclubaswell = 0
 for i in range(len(dups)):
     if(DF_Fests_LIST[i] in DF_CLUBS_LIST):
         count_total_fests_inclubaswell = count_total_fests_inclubaswell+dups[i]
-print(count_total_fests_inclubaswell)
+
 
 GRAPH_LIST = [[len(DF_CLUBS_LIST),len(Metadata)-len(DF_CLUBS_LIST)],[count_total_fests_inclubaswell,count_total_fests-count_total_fests_inclubaswell]]
 
-print(GRAPH_LIST )
 
-st.subheader("Stats")
+
+st.subheader("Ratio of Club Vs Fest Participants")
 chart_data4 = pd.DataFrame(
     GRAPH_LIST,
     columns=["Participating","Not Participating"],
-    index=["CLUBS","Fest Event Registrations"])
-print(chart_data4)
+    index=["CLUBS","Fest Event Participations"])
+#print(chart_data4)
 st.bar_chart(data=chart_data4)
 
-
+st.write("No of people Participated in club events = ",len(DF_CLUBS_LIST))
+st.write("No of people who did not Participate in club events = ",len(Metadata)-len(DF_CLUBS_LIST))
+st.write("Total No of Participations in Fest events = ",count_total_fests)
+st.write("Total No of participations in Fest Events by people who participated in club events = ",count_total_fests_inclubaswell)
+st.write("Total No of participations in Fest Events by people who did not participate in club events = ",count_total_fests-count_total_fests_inclubaswell)
 #################################################################################################################################
 
 
 DF_FESTS_1 = pd.read_csv("/Users/himavanthkandula/Downloads/Maverick-main/defuzzy_csv/Participants_In_Fests.csv")
 DF_FESTS_LIST = DF_FESTS_1["Name"].unique()
-print(len(DF_FESTS_LIST))
+#print(len(DF_FESTS_LIST))
 
 DF_CLUBS_1 = pd.read_csv("/Users/himavanthkandula/Downloads/Maverick-main/defuzzy_csv/Clubs_data.csv")
 DF_CLUBS_LIST = DF_CLUBS_1["Name"].unique()
 dups1 = DF_CLUBS_1.pivot_table(index = ['Name'], aggfunc ='size')
-print(dups1)
-print(len(DF_CLUBS_LIST))
+
 
 count_total_clubs = 0
 for i in range(len(dups1)):
@@ -168,19 +175,25 @@ count_total_clubs_infestaswell = 0
 for i in range(len(dups1)):
     if(DF_CLUBS_LIST[i] in DF_FESTS_LIST):
         count_total_clubs_infestaswell = count_total_clubs_infestaswell+dups1[i]
-print(count_total_clubs_infestaswell)
+#print(count_total_clubs_infestaswell)
 
 GRAPH_LIST_fest = [[len(DF_FESTS_LIST),len(Metadata)-len(DF_FESTS_LIST)],[count_total_clubs_infestaswell,count_total_clubs-count_total_clubs_infestaswell]]
 
 
-print(GRAPH_LIST_fest )
-st.subheader("Stats")
+#print(GRAPH_LIST_fest )
+
 chart_data5 = pd.DataFrame(
     GRAPH_LIST_fest ,
     columns=["Participating","Not Participating"],
-    index=["Fests","Club Event Registrations"])
-print(chart_data5)
+    index=["AFests","Club Event Participations"])
+#print(chart_data5)
 st.bar_chart(data=chart_data5)
+
+st.write("No of people Participated in Fest events = ",len(DF_FESTS_LIST))
+st.write("No of people who did not Participate in Fest events = ",len(Metadata)-len(DF_FESTS_LIST))
+st.write("Total No of Participations in Fest events = ",count_total_clubs)
+st.write("Total No of participations in Club Events by people who participated in Fest events = ",count_total_clubs_infestaswell)
+st.write("Total No of participations in Club Events by people who did not participate in Fest events = ",count_total_clubs-count_total_clubs_infestaswell)
 
 #################################################################################################################################
 
@@ -190,13 +203,13 @@ print(len(People_participating_in_fests_and_clubs))
 
 Peopleinclubnotfest = [x for x in DF_CLUBS_LIST if x not in DF_Fests_LIST]
 peopleinfestnotinclub = [x for x in DF_Fests_LIST if x not in DF_CLUBS_LIST ]
-print(len(Peopleinclubnotfest))
-print(len(peopleinfestnotinclub))
+#print(len(Peopleinclubnotfest))
+#print(len(peopleinfestnotinclub))
 
-st.subheader("Stats")
+st.subheader("General Stats")
 chart_data6 = pd.DataFrame(
     [len(People_participating_in_fests_and_clubs),len(Peopleinclubnotfest),len(peopleinfestnotinclub)],
     columns=["Participating"],
     index=["BOTH","CLUBS NOT FEST","FEST NOT CLUB"])
-print(chart_data6)
+#print(chart_data6)
 st.bar_chart(data=chart_data6)
