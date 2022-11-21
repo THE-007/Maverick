@@ -2,3 +2,4 @@ fuzzywuzzy
 numpy
 pandas
 streamlit
+python-Levenshtein
